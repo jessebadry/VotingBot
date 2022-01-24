@@ -1,8 +1,9 @@
 import discord
 from discord.ext import commands
+from exceptions import error_handler
 
 
-class Sample(commands.Cog):
+class VotePollSystem(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
@@ -14,6 +15,7 @@ class Sample(commands.Cog):
         print(f'Joined {guild.name} with {guild.member_count} users!')
 
     @commands.command()
+    @error_handler.handle_errors
     async def test(self, ctx):
         """
         A test command, Mainly used to show how commands and cogs should be laid out.
@@ -28,12 +30,14 @@ class Sample(commands.Cog):
         await ctx.send('try my subcommand')
 
     @foo.command(aliases=['an_alias'])
+    @error_handler.handle_errors
     async def bar(self, ctx):
         """
         I have an alias!, I also belong to command 'foo'
         """
-        await ctx.send('foo bar!')
+        raise NotImplementedError("brh")
+
 
 
 def setup(bot):
-    bot.add_cog(Sample(bot))
+    bot.add_cog(VotePollSystem(bot))

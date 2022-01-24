@@ -3,13 +3,16 @@ import datetime
 import json
 import logging
 from pathlib import Path
-
 import discord
 from discord.ext import commands
 
 
+# Voting bot, a voting system that allows rapid poll adding, (simply 1 command for both adding, and then further voting)
+# 2 similar named adds = 2 votes
+
+
 def config_load():
-    with open('data/config.json', 'r', encoding='utf-8') as doc:
+    with open('data/config.json', 'r', encoding="utf-8") as doc:
         #  Please make sure encoding is correct, especially after editing the config file
         return json.load(doc)
 
@@ -23,9 +26,12 @@ async def run():
     config = config_load()
     bot = Bot(config=config,
               description=config['description'])
+
     try:
         await bot.start(config['token'])
-    except KeyboardInterrupt:
+    except Exception as e:
+        print(f"Log error {e}")
+    finally:
         await bot.logout()
 
 
